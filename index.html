@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Right Form of Verbs | HM Online Education</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 15px;
+      color: #222;
+    }
+    .container {
+      max-width: 750px;
+      margin: auto;
+      background: white;
+      padding: 22px;
+      border-radius: 14px;
+      box-shadow: 0 3px 12px #0001;
+    }
+    h1 { color: #075e54; text-align: center; }
+    .subtitle { text-align: center; color: #555; }
+    .question {
+      padding: 15px 0;
+      border-bottom: 1px solid #ddd;
+    }
+    .question p { font-weight: bold; line-height: 1.6; }
+    label {
+      display: block;
+      padding: 9px;
+      margin: 5px 0;
+      background: #f6f8fa;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    label:hover { background: #e3f2fd; }
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 18px;
+      border: none;
+      border-radius: 8px;
+      background: #087f5b;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background: #e8f5e9;
+      display: none;
+    }
+    .correct { color: #16803c; }
+    .wrong { color: #c62828; }
+    .explanation { color: #444; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>HM Online Education</h1>
+    <p class="subtitle">SSC English Grammar — Right Form of Verbs</p>
+    <p>প্রতিটি প্রশ্নের সঠিক উত্তর নির্বাচন করো। মোট নম্বর: ১০</p>
+
+    <form id="quiz"></form>
+    <button type="button" onclick="checkAnswers()">উত্তর যাচাই করো</button>
+    <div id="result"></div>
+    <button type="button" onclick="location.reload()">আবার পরীক্ষা দাও</button>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "1. He _____ to school every day.",
+        options: ["go", "goes", "went", "going"],
+        answer: 1,
+        why: "Every day নিয়মিত কাজ বোঝায়। He-এর সঙ্গে goes বসে।"
+      },
+      {
+        q: "2. I _____ him yesterday.",
+        options: ["see", "have seen", "saw", "will see"],
+        answer: 2,
+        why: "Yesterday অতীত সময় বোঝায়, তাই saw হবে।"
+      },
+      {
+        q: "3. If I were a bird, I _____ fly in the sky.",
+        options: ["will", "would", "can", "shall"],
+        answer: 1,
+        why: "কাল্পনিক শর্তে If I were-এর সঙ্গে would + verb ব্যবহৃত হয়।"
+      },
+      {
+        q: "4. The sun _____ in the east.",
+        options: ["rise", "rising", "rises", "rose"],
+        answer: 2,
+        why: "চিরন্তন সত্য বোঝাতে Present Simple ব্যবহৃত হয়।"
+      },
+      {
+        q: "5. He has _____ his homework.",
+        options: ["do", "did", "done", "doing"],
+        answer: 2,
+        why: "Has-এর পরে Present Perfect-এ verb-এর V3 বসে।"
+      },
+      {
+        q: "6. While I _____ reading, he came.",
+        options: ["am", "was", "were", "have been"],
+        answer: 1,
+        why: "অতীতে চলমান কাজ বোঝাতে was reading ব্যবহৃত হয়।"
+      },
+      {
+        q: "7. The patient _____ before the doctor came.",
+        options: ["dies", "has died", "had died", "will die"],
+        answer: 2,
+        why: "অতীতের অন্য কাজের আগে ঘটে যাওয়া কাজ বোঝাতে had + V3 হয়।"
+      },
+      {
+        q: "8. Would you mind _____ the door?",
+        options: ["open", "to open", "opening", "opened"],
+        answer: 2,
+        why: "Would you mind-এর পরে verb + ing বসে।"
+      },
+      {
+        q: "9. It is high time we _____ home.",
+        options: ["go", "went", "will go", "have gone"],
+        answer: 1,
+        why: "It is high time + subject-এর পরে সাধারণত past form বসে।"
+      },
+      {
+        q: "10. The work must _____ today.",
+        options: ["finish", "finished", "be finished", "be finishing"],
+        answer: 2,
+        why: "Passive structure: must + be + past participle (V3)।"
+      }
+    ];
+
+    const quiz = document.getElementById("quiz");
+
+    questions.forEach((item, i) => {
+      const section = document.createElement("div");
+      section.className = "question";
+
+      let html = "<p>" + item.q + "</p>";
+
+      item.options.forEach((option, j) => {
+        html += `
+          <label>
+            <input type="radio" name="q${i}" value="${j}">
+            ${String.fromCharCode(65 + j)}. ${option}
+          </label>`;
+      });
+
+      section.innerHTML = html;
+      quiz.appendChild(section);
+    });
+
+    function checkAnswers() {
+      let score = 0;
+      let unanswered = 0;
+      let review = "";
+
+      questions.forEach((item, i) => {
+        const selected = document.querySelector(
+          'input[name="q' + i + '"]:checked'
+        );
+
+        if (!selected) unanswered++;
+        else if (Number(selected.value) === item.answer) score++;
+
+        review += `
+          <p class="${
+            selected && Number(selected.value) === item.answer
+              ? "correct" : "wrong"
+          }">
+            <b>${item.q}</b><br>
+            সঠিক উত্তর: ${String.fromCharCode(65 + item.answer)}. 
+            ${item.options[item.answer]}
+          </p>
+          <p class="explanation">${item.why}</p>
+        `;
+      });
+
+      const result = document.getElementById("result");
+      result.style.display = "block";
+      result.innerHTML = `
+        <h2>তোমার ফলাফল: ${score}/10</h2>
+        <p>সঠিক উত্তর: ${score}টি | ভুল বা উত্তর না দেওয়া: ${10-score}টি</p>
+        ${unanswered ? "<p>উত্তর দেওয়া হয়নি: " + unanswered + "টি</p>" : ""}
+        <hr>
+        <h3>উত্তর ও ব্যাখ্যা</h3>
+        ${review}
+      `;
+
+      result.scrollIntoView({ behavior: "smooth" });
+    }
+  </script>
+</body>
+</html>
